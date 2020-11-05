@@ -1,0 +1,5 @@
+/log_files/*
+/image_uploads/*
+/models/*
+.idea
+__pycache__
