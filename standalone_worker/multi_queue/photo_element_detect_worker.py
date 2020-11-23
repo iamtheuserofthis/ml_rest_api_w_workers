@@ -32,13 +32,13 @@ class PhotoElementDetectWorker():
                     print('file_log', file_loc)
                     res = self.model.detect_image(file_loc)
                     print(res)
-                    db_op.process_complete(applicant_cred_id, f_name, 'photo_element_detection', 'photo_element_detection',res)
+                    db_op.process_complete(applicant_cred_id, f_name, 'photo_element_detect', 'photo_element_detect',res)
 
                 except Exception as e:
                     db_op.process_complete(applicant_cred_id,
                                            f_name,
-                                           'photo_element_detection',
-                                           'photo_element_detection',
+                                           'photo_element_detect',
+                                           'photo_element_detect',
                                            None,
                                            success=False)
 

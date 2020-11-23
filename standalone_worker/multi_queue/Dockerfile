@@ -39,7 +39,11 @@ RUN mkdir /image_uploads
 
 COPY . /standalone_worker
 
+RUN ln -fs /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+RUN apt-get install -y tzdata
+RUN dpkg-reconfigure --frontend noninteractive tzdata
+
 CMD python3.7 /standalone_worker/image_saving_worker.py
 
 #docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-#sudo docker run -it --rm -v /home/iamtheuserofthis/python_workspace/for_containerization/image_uploads:/image_uploads -v /home/iamtheuserofthis/python_workspace/for_containerization/log_files:/log_files -v /home/iamtheuserofthis/python_workspace/for_containerization/models:/models 90f60479d519
+#sudo docker run -it --rm -v /srv/nfs4/image_uploads:/image_uploads -v /home/iamtheuserofthis/python_workspace/containerized_apps/log_files:/log_files -v /home/iamtheuserofthis/python_workspace/containerized_apps/models:/models ef3a6e598d3b python3.7 /standalone_worker/photo_element_detect_worker.py
