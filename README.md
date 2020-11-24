@@ -1,6 +1,7 @@
 ## ML REST SERVICE WITH WORKERS
 
 [![CodeFactor](https://www.codefactor.io/repository/github/iamtheuserofthis/ml_rest_api_w_workers/badge)](https://www.codefactor.io/repository/github/iamtheuserofthis/ml_rest_api_w_workers)
+
 The app uses three major components to function
 
 1. API interface - Uses flask_restful API to create endpoints for various ML tasks and fetching the results.
