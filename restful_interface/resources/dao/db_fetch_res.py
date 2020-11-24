@@ -38,7 +38,7 @@ class DBSelectOperations:
             'image_id': list_values[1],
             'task': list_values[2],
             'final_task': list_values[3],
-            'result': list_values[4],
+            'result': json.loads(list_values[4]) if list_values[4] is not None else "NA",
             'tstamp': list_values[5],
             'success': list_values[6]
 
@@ -85,17 +85,19 @@ class DBSelectOperations:
         latest_event = sorted_res[0]
         if latest_event['task'] == latest_event['final_task']:
             query_res = {'status': 'successful' if latest_event['success'] else 'failed',
+                         'image_id': latest_event['image_id'],
+                         'timestamp': latest_event['tstamp'],
                          'result': latest_event['result'],
-                         'total_time': str(sorted_res[0]['tstamp']-sorted_res[-1]['tstamp'])}
+                         'task': latest_event['task'],
+                         'total_time': str(sorted_res[0]['tstamp'] - sorted_res[-1]['tstamp'])}
         else:
             query_res = {'status': 'pending' if latest_event['success'] else 'failed',
+                         'image_id': latest_event['image_id'],
+                         'timestamp': latest_event['tstamp'],
                          'last_task': latest_event['task'],
-                         'total_time': str(sorted_res[0]['tstamp']-sorted_res[-1]['tstamp'])}
+                         'total_time': str(sorted_res[0]['tstamp'] - sorted_res[-1]['tstamp'])}
 
         return query_res
-
-    def status_per_image_app_cred(self, applicant_cred_id, image_id):
-        pass
 
     def status_cred_id(self, applicant_cred_id):
         """
@@ -105,11 +107,18 @@ class DBSelectOperations:
         :return:
         :rtype:
         """
-        pass
+        s = select([self.table.c.image_id, self.table.c.final_task]).where(
+            self.table.c.applicant_cred_id == applicant_cred_id).distinct()
+        conn = self.engine.connect()
+        id_task_res = conn.execute(s)
+        return sorted(list(map(lambda x: self.get_image_res(applicant_cred_id, x[0], x[1]), id_task_res)),
+                      key=lambda x: x["timestamp"],
+                      reverse=True)
 
 
-if __name__ == '__main__':
-    dbOp = DBSelectOperations()
-    print(dbOp.get_image_res(applicant_cred_id=12102, image_id='656c3258-7309-4e35-b460-5400e08f9882',
-                             final_task='photo_element_detect'))
-    # for i in
+# if __name__ == '__main__':
+#     dbOp = DBSelectOperations()
+#     # print(dbOp.get_image_res(applicant_cred_id=12102, image_id='656c3258-7309-4e35-b460-5400e08f9882',
+#     #                          final_task='photo_element_detect'))
+#     dbOp.status_cred_id(12102)
+#     # for i in

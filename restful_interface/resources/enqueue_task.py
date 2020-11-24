@@ -1,9 +1,10 @@
-from flask_restful import Resource, fields, reqparse
+from flask_restful import Resource, reqparse
 from flask import jsonify, make_response
 import pika
 import werkzeug
 from resources.file_translator import file_tranlator
 from resources.dao import db_operation_insert
+
 
 class PhotoElementDetection(Resource):
     def __init__(self):
