@@ -20,6 +20,11 @@ COMMANDS TO RUN:
 $ sudo docker run -it --rm -v /srv/nfs4/image_uploads:/image_uploads -v /home/iamtheuserofthis/
 python_workspace/containerized_apps/log_files:/log_files -v /home/iamtheuserofthis/python_workspace/containerized_apps/models:/models ef3a6e598d3b python3.7 /standalone_worker/<worker python file>
 ```
+
+```sh
+$ sudo docker run -it --rm -v /srv/nfs4/image_uploads:/image_uploads -v /home/iamtheuserofthis/python_workspace/containerized_apps/log_files:/log_files -v /home/iamtheuserofthis/python_workspace/containerized_apps/models:/models --env-file ./env.list bda5dcc7df5f python3.7 /standalone_worker/image_saving_worker.py
+
+```
 3. Rabbitmq container with user:test, password:test and access level /* admin.
 
 

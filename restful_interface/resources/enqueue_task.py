@@ -4,7 +4,7 @@ import pika
 import werkzeug
 from resources.file_translator import file_tranlator
 from resources.dao import db_operation_insert
-
+import resources.config_env as env_conf
 
 class PhotoElementDetection(Resource):
     def __init__(self):
@@ -31,8 +31,11 @@ class PhotoElementDetection(Resource):
             location='files',
             required=True
         )
+        url = "amqp://%s:%s@%s:%s" % (env_conf.rabbitmq_username, env_conf.rabbitmq_passwd,
+                                                     env_conf.rabbitmq_host, env_conf.rabbitmq_port)
+        print(url)
         connection = pika.BlockingConnection(
-            pika.URLParameters("amqp://test:test@iamtheuserofthis3.pune.cdac.in:5672")
+            pika.URLParameters(url)
         )
         self.q_channel = connection.channel()
         self.q_channel.queue_declare(queue='image_store', durable=True)

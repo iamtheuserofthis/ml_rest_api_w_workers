@@ -5,12 +5,15 @@ import json
 
 from dao.db_con_v2 import DBOperations
 from model_classes.photo_element_mrcnn import ElementDetectionMrcnn
-
+import config_env as env_vars
 
 class PhotoElementDetectWorker():
     def __init__(self, receive_queue_name, file_dir, log_dir, model_dir, host='localhost'):
+        url = "amqp://%s:%s@%s:%s" % (
+        env_vars.rabbitmq_username, env_vars.rabbitmq_passwd, env_vars.rabbitmq_host, env_vars.rabbitmq_port)
+        print('connection link: %s' % url)
         connection = pika.BlockingConnection(
-            pika.URLParameters("amqp://test:test@iamtheuserofthis3.pune.cdac.in:5672")
+            pika.URLParameters(url)
         )
         self.consuming_chan = connection.channel()
         self.file_dir = file_dir

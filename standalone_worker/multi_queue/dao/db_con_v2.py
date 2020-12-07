@@ -4,14 +4,15 @@ from sqlalchemy import inspect
 from sqlalchemy import exc, Table, Column, MetaData, String, BigInteger, JSON, TIMESTAMP, Boolean
 import json
 from datetime import datetime
+import config_env as env_vars
 
 # todo - Place the configuration object in the dbconfig type file
 config_obj = {}
 config_obj['drivername'] = 'postgres'
-config_obj['host'] = 'iamtheuserofthis3.pune.cdac.in'
-config_obj['username'] = 'scala_user'
-config_obj['passwd'] = 'scala_user'
-config_obj['port'] = 5432
+config_obj['host'] = env_vars.postgres_hostname
+config_obj['username'] = env_vars.postgres_username
+config_obj['passwd'] = env_vars.postgres_password
+config_obj['port'] = env_vars.postgres_port
 config_obj['database'] = 'icg_image_process_sample'
 
 table_model = lambda meta: Table('image_processing_result_v2', meta,
